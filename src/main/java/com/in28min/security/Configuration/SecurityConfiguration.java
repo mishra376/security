@@ -31,11 +31,7 @@ public class SecurityConfiguration {
                 )
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                .headers(headers -> headers
-                        .frameOptions(frame -> frame.sameOrigin()) // ✅ updated way
-                );
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 
 
         return http.build();
@@ -57,35 +53,35 @@ public class SecurityConfiguration {
 //        return new InMemoryUserDetailsManager(user, admin);
 //    }
 
-    @Bean
-    public DataSource dataSource() {
-        return new EmbeddedDatabaseBuilder()
-                .setType(EmbeddedDatabaseType.H2)
-                .addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION)
-                .build();
-    }
+//    @Bean
+//    public DataSource dataSource() {
+//        return new EmbeddedDatabaseBuilder()
+//                .setType(EmbeddedDatabaseType.H2)
+//                .addScript(JdbcDaoImpl.DEFAULT_USER_SCHEMA_DDL_LOCATION)
+//                .build();
+//    }
 
 
-    @Bean
-    public UserDetailsService userDetailsService(DataSource dataSource) {
-        var user = User.withUsername("amber")
-                .password("password")
-                .passwordEncoder(str -> new BCryptPasswordEncoder().encode(str))
-                .roles("ADMIN")
-                .build();
-
-        var admin = User.withUsername("admin")
-                .password("password")
-                .passwordEncoder(str -> new BCryptPasswordEncoder().encode(str))
-                .roles("USER")
-                .build();
-
-        var userDetailsManager = new JdbcUserDetailsManager(dataSource);
-        userDetailsManager.createUser(user);
-        userDetailsManager.createUser(admin);
-
-        return userDetailsManager;
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(DataSource dataSource) {
+//        var user = User.withUsername("amber")
+//                .password("password")
+//                .passwordEncoder(str -> new BCryptPasswordEncoder().encode(str))
+//                .roles("ADMIN")
+//                .build();
+//
+//        var admin = User.withUsername("admin")
+//                .password("password")
+//                .passwordEncoder(str -> new BCryptPasswordEncoder().encode(str))
+//                .roles("USER")
+//                .build();
+//
+//        var userDetailsManager = new JdbcUserDetailsManager(dataSource);
+//        userDetailsManager.createUser(user);
+//        userDetailsManager.createUser(admin);
+//
+//        return userDetailsManager;
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
