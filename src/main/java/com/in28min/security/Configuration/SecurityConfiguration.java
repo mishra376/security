@@ -10,6 +10,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -67,12 +69,14 @@ public class SecurityConfiguration {
     @Bean
     public UserDetailsService userDetailsService(DataSource dataSource) {
         var user = User.withUsername("amber")
-                .password("{noop}password")
+                .password("password")
+                .passwordEncoder(str -> new BCryptPasswordEncoder().encode(str))
                 .roles("ADMIN")
                 .build();
 
         var admin = User.withUsername("admin")
-                .password("{noop}password")
+                .password("password")
+                .passwordEncoder(str -> new BCryptPasswordEncoder().encode(str))
                 .roles("USER")
                 .build();
 
@@ -81,5 +85,10 @@ public class SecurityConfiguration {
         userDetailsManager.createUser(admin);
 
         return userDetailsManager;
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); //It uses default value of 10
     }
 }
