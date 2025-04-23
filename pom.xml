@@ -81,6 +81,18 @@
 			<version>42.7.3</version> <!-- Use latest stable version -->
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.nimbusds</groupId>
+			<artifactId>nimbus-jose-jwt</artifactId>
+			<version>9.37.3</version> <!-- Latest as of now -->
+		</dependency>
+
+
 	</dependencies>
 
 	<build>
